@@ -1,6 +1,6 @@
 # NEStley
 
-NES-style UI library for crixel
+NES-style UI library for crixel inspired by https://github.com/BcRikko/NES.css
 
 ## Installation
 
