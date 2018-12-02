@@ -20,14 +20,16 @@ entities << cont
 
 height.times do |y|
   width.times do |x|
-    img.set(x, y, NEStley::Color::DARK.value.to_u32)
+    drawn = false
     entities.each do |entity|
       if entity.needs_redraw?
         if entity.wants_coord?(x, y)
           img.set(x, y, entity.color_at(x, y))
+          drawn = true
         end
       end
     end
+    img.set(x, y, NEStley::Color::DARK.value.to_u32) unless drawn
   end
 end
 entities.each do |entity|
