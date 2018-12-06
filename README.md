@@ -12,6 +12,10 @@ dependencies:
 ```
 2. Run `shards install`
 
+## Current Status
+
+![Preview](preview.png)
+
 ## Usage
 
 ```crystal
