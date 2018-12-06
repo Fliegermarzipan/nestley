@@ -19,7 +19,7 @@ module NEStley
     end
 
     def wants_coord?(x, y) : Bool
-      x > @x && x < @x + @width && y > @y && y < @y + @height
+      x >= @x && x < @x + @width && y >= @y && y < @y + @height
     end
 
     def color_at(x, y) : UInt32
