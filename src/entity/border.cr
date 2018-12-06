@@ -1,44 +1,29 @@
-require "./rect"
+require "./container"
 
 module NEStley
-  class Border < Rect
-    property thickness : UInt32
-    property offset : UInt32
-
-    def initialize(@width, @height, @x = 0, @y = 0, @background_color = 0xaaaa00)
+  class Border < Container
+    def initialize(@width, @height, @x = 0, @y = 0, @background_color = 0xaaaa00, @rounded = true)
       super(@width, @height, @x, @y, @background_color)
-      @thickness = 10_u32
-      @offset = 2_u32
-    end
+      @entities = Array(Entity).new
+      thick = 8_u32
+      if (rounded)
+        @entities << Rect.new(@width - thick*4, thick, 2*thick, 0, @background_color)
+        @entities << Rect.new(@width - thick*4, thick, 2*thick, @height.to_i32 - thick, @background_color)
 
-    def set_thickness(target : UInt32)
-      @thickness = target
-    end
+        @entities << Rect.new(thick, height - thick*4, 0, 2*thick, @background_color)
+        @entities << Rect.new(thick, height - thick*4, @width.to_i32 - thick, 2*thick, @background_color)
 
-    def set_offset(target : UInt32)
-      @offset = target
-    end
+        @entities << Rect.new(thick, thick, thick.to_i32, thick.to_i32, @background_color)
+        @entities << Rect.new(thick, thick, @width.to_i32 - thick.to_i32*2, thick.to_i32, @background_color)
+        @entities << Rect.new(thick, thick, thick.to_i32, @height.to_i32 - thick.to_i32*2, @background_color)
+        @entities << Rect.new(thick, thick, @width.to_i32 - thick.to_i32*2, @height.to_i32 - thick.to_i32*2, @background_color)
+      else
+        @entities << Rect.new(@width - thick*2, thick, thick.to_i32, 0, @background_color)
+        @entities << Rect.new(@width - thick*2, thick, thick.to_i32, @height.to_i32 - thick, @background_color)
 
-    def wants_coord?(x, y) : Bool
-      # x > @x && x < @x + @width && y > @y && y < @y + @height
-      left = x > @x + @offset
-      left &= x < @x + @thickness
-
-      right = x < @x + @width - @offset
-      right &= x > @x + @width - @thickness
-
-      top = y > @y + @offset
-      top &= y < @y + @thickness
-
-      bottom = y < @y + @height - @offset
-      bottom &= y > @y + @height - @thickness
-
-      corner = x < @thickness && y < @thickness                     # top left
-      corner |= x < @thickness && y > @height - @thickness          # top left
-      corner |= x > @width - @thickness && y < @thickness           # top right
-      corner |= x > @width - @thickness && y > @height - @thickness # bottom right
-
-      (right || left || top || bottom) && !corner
+        @entities << Rect.new(thick, height - thick*2, 0, thick.to_i32, @background_color)
+        @entities << Rect.new(thick, height - thick*2, @width.to_i32 - thick, thick.to_i32, @background_color)
+      end
     end
   end
 end
