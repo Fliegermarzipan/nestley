@@ -5,7 +5,7 @@ module NEStley
     property entities : Array(Entity)
 
     def initialize(@width, @height, @x = 0, @y = 0, @background_color = 0xaaaa00)
-      super(@width, @height, @x, @y, @background_color)
+      super
       @entities = Array(Entity).new
     end
 
@@ -17,15 +17,17 @@ module NEStley
       ret = false
       @entities.each do |entity|
         ret ||= entity.wants_coord?(x - @x, y - @y)
+        break if ret
       end
-      ret && super(x, y)
+      ret && super
     end
 
     def color_at(x, y) : UInt32
       ret = 0_u32
-      @entities.each do |entity|
+      @entities.reverse_each do |entity|
         if entity.wants_coord?(x - @x, y - @y)
           ret = entity.color_at(x - @x, y - @y)
+          break
         end
       end
       ret
@@ -33,8 +35,9 @@ module NEStley
 
     def needs_redraw? : Bool
       ret = false
-      @entities.each do |entity|
+      @entities.reverse_each do |entity|
         ret ||= entity.needs_redraw?
+        break if ret
       end
       ret
     end
