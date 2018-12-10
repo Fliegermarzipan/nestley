@@ -7,6 +7,8 @@ authors:
 dependencies:
   crixel:
     github: fliegermarzipan/crixel
+  fontanyl:
+    github: fliegermarzipan/fontanyl
 
 crystal: 0.27.0
 
