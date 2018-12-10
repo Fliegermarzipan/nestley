@@ -26,11 +26,12 @@ cont << NEStley::Textbox.new(340_u32, 150_u32, 30, 30, NEStley::Color::DARK.valu
 height.times do |y|
   width.times do |x|
     drawn = false
-    entities.each do |entity|
+    entities.reverse_each do |entity|
       if entity.needs_redraw?
         if entity.wants_coord?(x, y)
           img.set(x, y, entity.color_at(x, y))
           drawn = true
+          break
         end
       end
     end
