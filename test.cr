@@ -2,13 +2,14 @@
 
 require "benchmark"
 require "crixel"
-
+require "fontanyl"
 require "./src/NEStley"
 
 width = 1280_u32
 height = 720_u32
 
 img = Crixel::SixelImage.new(width, height)
+font = Fontanyl::BDF.new("font.bdf")
 
 entities = [] of NEStley::Entity
 entities << NEStley::Rect.new(200_u32, 100_u32, 50, 50, NEStley::Color::PRIMARY.value)
@@ -18,6 +19,9 @@ entities << cont
 
 cont << NEStley::Button.new(130_u32, 60_u32, 30, 200, NEStley::Color::SUCCESS.value)
 cont << NEStley::Button.new(130_u32, 60_u32, 240, 200, NEStley::Color::ERROR.value)
+
+cont << NEStley::Textbox.new(340_u32, 150_u32, 30, 30, NEStley::Color::DARK.value)
+  .set_font(font).set_msg("Hello, World!")
 
 height.times do |y|
   width.times do |x|
