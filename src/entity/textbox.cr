@@ -33,13 +33,18 @@ module NEStley
     end
 
     def wants_coord?(x, y) : Bool
-      ret = false
-      begin
-        ret = rendered_msg[y - @y][x - @x]
-      rescue e : Exception
+      supret = super
+      if supret
         ret = false
+        begin
+          ret = rendered_msg[y - @y][x - @x]
+        rescue e : Exception
+          ret = false
+        end
+        ret
+      else
+        supret
       end
-      ret
     end
   end
 end
